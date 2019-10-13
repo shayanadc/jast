@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+        <main role="main" class="container">
+                <div class="my-3 p-3 bg-white rounded shadow-sm">
+                    <input class="form-control" id="prefix-url" type="text" readonly>
+                  <br>
+                    <div class="row container demo">
+                        <div class="col-12 themed-grid-col">
+                          <span class="badge badge-primary">METHOD</span>
+                          <span class="badge badge-secondary">EndPoint</span></h1>
+                          <span class="badge badge-pill badge-primary">STATUS</span>
+                        </div>
+                        <div class="row container">
+                            <div class="col-5 themed-grid-col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text">REQUEST</span>
+                                    </div>
+                                    <textarea class="form-control" aria-label="With textarea"></textarea>
+                                  </div>
+                            </div>
+                            <div class="col-5 themed-grid-col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text">RESPONSE</span>
+                                    </div>
+                                    <textarea class="form-control" aria-label="With textarea"></textarea>
+                                  </div>
+                            </div>
+                            <div class="col-2">
+                            <button type="button" class="btn btn-danger">DELETE</button>
+                              </div>
+
+                        </div>
+                      </div>
+                </div>
+                </main>
+<!-- Default form register -->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script type="text/javascript" src= "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"> </script> 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script>
+        function getAllSubs(){
+            $.ajax({
+            url : 'http://127.0.0.1:3000/stubs',
+            type : 'GET',
+            headers: {
+            "access_token" : $.cookie("access_token")
+              }
+            }).done(function(data) {
+              console.log(data)
+              console.log($.cookie("access_token"))
+              $('.demo').hide()
+              $.each(data, function( index, value ) {
+                var htmlDiv = '<div class="row container" id="' + value._id + '">'
+                    htmlDiv += '<div class="col-12 themed-grid-col">'
+                    htmlDiv += '<span class="badge badge-primary">METHOD:   ' + value.method + '</span>'
+                    htmlDiv += '<span class="badge badge-secondary">EndPoint:   ' + value.endpoint  + '</span></h1>'
+                    htmlDiv += ' <span class="badge badge-pill badge-primary">STATUS:   '  + value.status + '</span>'
+                    htmlDiv += '</div>'
+                    htmlDiv += '<div class="row container">'
+                    htmlDiv += '<div class="col-5 themed-grid-col">'
+                    htmlDiv += '<div class="input-group">'
+                    htmlDiv += '<div class="input-group-prepend">'
+                    htmlDiv += ' <span class="input-group-text">REQUEST</span>'
+                    htmlDiv += '</div>'
+                    htmlDiv += '<textarea class="form-control" aria-label="With textarea">' + JSON.stringify(value.request) + '</textarea>'
+                    htmlDiv += '</div></div>'
+                    htmlDiv += ' <div class="col-5 themed-grid-col">'
+                    htmlDiv += '<div class="input-group">'
+                    htmlDiv += ' <div class="input-group-prepend">'
+                    htmlDiv +='<span class="input-group-text">RESPONSE</span>'
+                    htmlDiv +=' </div>'
+                    htmlDiv +=' <textarea class="form-control" aria-label="With textarea">' + JSON.stringify(value.response)+ '</textarea>'
+                    htmlDiv +=' </div></div>'
+                    htmlDiv +='<div class="col-2">'
+                    htmlDiv += '<button type="button" id="' + value._id + '"class="btn btn-danger">DELETE</button>'
+                    htmlDiv += '</div></div></div>'
+              $(htmlDiv).appendTo( ".shadow-sm" )
+              // $( "div.demo-container" ).append(htmlDiv);
+              });
+              $('.btn-danger').on("click",function(){
+                var itemValue = $(this).attr('id')
+                $('div#' + itemValue).hide()
+                $.ajax({
+                url : 'http://127.0.0.1:3000/stubs/' + itemValue,
+                type : 'DELETE',
+                headers: {
+                  "access_token" : $.cookie("access_token")
+                }
+              }).done(function(data) {
+                console.log(data)
+              })
+        })
+            });
+          }
+        $( document ).ready(function() {
+          if($.cookie("access_token")){
+            $('#prefix-url').attr('placeholder', 'your prefix to access your api is \"' + $.cookie("prefix") + "\"")
+            getAllSubs()
+          }else{
+            window.location.href = '/'
+          }
+      });
+      
+      </script>
+  </body>
+</html>

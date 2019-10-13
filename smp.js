@@ -1,0 +1,1 @@
+const Query = require('./userQuery')
