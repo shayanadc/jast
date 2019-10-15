@@ -24,6 +24,7 @@ const deleteStub = (query) => {
 }
       })
   }
+  
   const saveUserStub = (user,stub) => {
   return new Promise(async (resolve, reject) => {
   try{

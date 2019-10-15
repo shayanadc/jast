@@ -1,5 +1,5 @@
 
-const { Given, When, Then, Before, After} = require('cucumber');
+const { Given, When, Then, Before} = require('cucumber');
 var chai = require('chai')
   , chaiHttp = require('chai-http')
   , chaiJsonEqual = require('chai-json-equal');
@@ -10,12 +10,10 @@ const app = require("../app")
 var Factory = require('../factory')
 var mongoose = require('mongoose')
 var Q = require('../userQuery')
+
 Before(async function(){
   await mongoose.connection.db.dropDatabase();
-});
-After(async function(){
-  await mongoose.connection.db.dropDatabase();
-});
+})
 
 this.mockObjId;
 Given('I am a user with prefix {string} and access_token {string}', async function (string, string2) {
