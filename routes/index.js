@@ -8,7 +8,7 @@ const { check, validationResult } = require('express-validator');
 router.get('/',function(req, res) {res.render('index')})
 router.get('/all',function(req, res) {res.render('all')})
 router.get('/new',function(req, res) {res.render('new')})
-router.get('/testimo',function(req, res) {res.render('testimo')})
+router.get('/api_mock',function(req, res) {res.render('api_mock')})
 
 
 async function ensureAuthenticated(req, res, next) {
