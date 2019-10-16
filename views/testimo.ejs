@@ -29,7 +29,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-url"></span>
                     </div>
-                    <input type="text" class="form-control" id="endpoint" aria-describedby="basic-addon3">
+                    <input type="text" class="form-control" id="endpoint" aria-describedby="basic-addon3" required>
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -49,11 +49,11 @@
                 </div>
                 <div class="form-group">
                     <label for="formGroupExampleInput">Status Code</label>
-                    <input type="text" class="form-control" id="status" placeholder="Example input">
+                    <input type="text" class="form-control" id="status" placeholder="Example input" required>
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">Json Response</label>
-                    <textarea class="form-control" id="response" rows="3"></textarea>
+                    <textarea class="form-control" id="response" rows="3" required></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
@@ -134,7 +134,6 @@
             }
         })
         $("#target").submit(function (event) {
-            $(".alert").alert('close')
             event.preventDefault();
             var endpoint = $("#endpoint").val();
             var method = $("#method").val();
@@ -164,7 +163,6 @@
                 }
             }).done(function (data) {
                 $('#target').trigger("reset");
-                $('.alert-warning').alert('close')
             }).fail(function (data) {
                 validataion_alaram_html = ''
                 $.each(data.responseJSON.errors, function (index, value) {
@@ -177,6 +175,9 @@
                     validataion_alaram_html += '</div>'
                 })
                 $(validataion_alaram_html).appendTo("#alert")
+                $(".alert-warning").fadeTo(2000, 500).slideUp(500, function () {
+                    $(".alert-warning").slideUp(500)
+                });
             });
 
         })
