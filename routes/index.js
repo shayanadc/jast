@@ -23,7 +23,6 @@ async function ensureAuthenticated(req, res, next) {
 router.get('/auth/github', passport.authenticate('github'));
 
 router.get('/auth/github/callback', passport.authenticate('github', {session: false}), function(req, res) {
-
     data = { prefix : req.user.prefix, access_token : req.user.access_token }
     expiredTime = new Date(Date.now() + 7 * 24*60*60*1000)
     res.cookie('prefix', data.prefix, { expire : expiredTime, httpOnly: false });

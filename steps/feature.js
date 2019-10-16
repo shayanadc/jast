@@ -1,5 +1,5 @@
 
-const { Given, When, Then, Before} = require('cucumber');
+const { Given, When, Then, Before,After} = require('cucumber');
 var chai = require('chai')
   , chaiHttp = require('chai-http')
   , chaiJsonEqual = require('chai-json-equal');
@@ -12,6 +12,9 @@ var mongoose = require('mongoose')
 var Q = require('../userQuery')
 
 Before(async function(){
+  await mongoose.connection.db.dropDatabase();
+})
+After(async function(){
   await mongoose.connection.db.dropDatabase();
 })
 
