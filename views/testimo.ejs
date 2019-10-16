@@ -2,181 +2,185 @@
 <html lang="en">
 
 <head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <title>Hello, world!</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Hello, world!</title>
 </head>
 
 <body>
-  <div class="row col-12">
-    <div class="col-6">
-      <input class="d-block form-control" id="prefix-url" type="text" readonly>
-      <div class="stubs-demo">
-      </div>
+    <div class="row col-12">
+        <div class="col-6">
+            <input class="d-block form-control" id="prefix-url" type="text" readonly>
+            <div class="stubs-demo" id="accordion">
+            </div>
+        </div>
+        <div class="col-6">
+            <div id="alert">
+            </div>
+            <form id="target">
+                <label for="basic-url">Your vanity URL</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-url"></span>
+                    </div>
+                    <input type="text" class="form-control" id="endpoint" aria-describedby="basic-addon3">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01">Method</label>
+                    </div>
+                    <select class="custom-select" id="method">
+                        <option selected>Choose...</option>
+                        <option value="GET">GET</option>
+                        <option value="POST">POST</option>
+                        <option value="DELETE">DELETE</option>
+                        <option value="PUT">PUT</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Json Request</label>
+                    <textarea class="form-control" id="request" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Status Code</label>
+                    <input type="text" class="form-control" id="status" placeholder="Example input">
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Json Response</label>
+                    <textarea class="form-control" id="response" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
     </div>
-    <div class="col-6">
-        <div id="alert">
-          </div>
-      <form id="target">
-        <label for="basic-url">Your vanity URL</label>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-url"></span>
-          </div>
-          <input type="text" class="form-control" id="endpoint" aria-describedby="basic-addon3">
-        </div>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <label class="input-group-text" for="inputGroupSelect01">Method</label>
-          </div>
-          <select class="custom-select" id="method">
-            <option selected>Choose...</option>
-            <option value="GET">GET</option>
-            <option value="POST">POST</option>
-            <option value="DELETE">DELETE</option>
-            <option value="PUT">PUT</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="exampleFormControlTextarea1">Request Json</label>
-          <textarea class="form-control" id="request" rows="3"></textarea>
-        </div>
-        <div class="form-group">
-          <label for="formGroupExampleInput">Status Code</label>
-          <input type="text" class="form-control" id="status" placeholder="Example input">
-        </div>
-        <div class="form-group">
-          <label for="exampleFormControlTextarea1">Response Json</label>
-          <textarea class="form-control" id="response" rows="3"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-    </div>
-  </div>
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous"></script>
-  <script type="text/javascript"
-    src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"> </script>
-  <script type="text/javascript"
-    src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-  <script>
-    function getAllSubs() {
-      $.ajax({
-        url: 'http://127.0.0.1:3000/stubs',
-        type: 'GET',
-        headers: {
-          "access_token": $.cookie("access_token")
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"> </script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script>
+        function getAllSubs() {
+            $.ajax({
+                url: 'http://127.0.0.1:3000/stubs',
+                type: 'GET',
+                headers: {
+                    "access_token": $.cookie("access_token")
+                }
+            }).done(function (data) {
+                $('#accordionStubs').hide()
+                stubs_demo_html = ''
+                $.each(data, function (index, value) {
+                    stubs_demo_html += '<div class="card" id="stubs-demo' + value._id + '">'
+                    stubs_demo_html += '<div class="card-header" id="heading' + index + '">'
+                    stubs_demo_html += '<h4 class="mb-0">'
+                    stubs_demo_html += '<button class="btn btn-link" data-toggle="collapse" data-target="#collapse' + index + '" aria-expanded="true" aria-controls="collapse' + index + '">'
+                    stubs_demo_html += '<a href="#" class="badge badge-primary">' + value.method + '</a>'
+                    stubs_demo_html += '<p class="d-inline h6"><em>/' + value.endpoint + '</em></p>'
+                    stubs_demo_html += '</button>'
+                    stubs_demo_html += '<a class="delete" href="#" id=' + value._id + '><i class="fa fa-trash float-right" aria-hidden="false"></i><a>'
+                    stubs_demo_html += '</h4>'
+                    stubs_demo_html += '</div>'
+                    stubs_demo_html += '<div id="collapse' + index + '" class="collapse" aria-labelledby="heading' + index + '" data-parent="#accordion">'
+                    stubs_demo_html += '<div class="card-body"><div class="input-group mb-3"><div class="input-group-prepend">'
+                    stubs_demo_html += '<span class="input-group-text">Request</span>'
+                    stubs_demo_html += '</div>'
+                    stubs_demo_html += '<textarea class="form-control" aria-label="With textarea">' + JSON.stringify(value.request) + '</textarea>'
+                    stubs_demo_html += '</div><div class="input-group mb-3"><div class="input-group-prepend">'
+                    stubs_demo_html += '<span class="d-block input-group-text">Response'
+                    stubs_demo_html += '<span class="d-block badge badge-primary">' + value.status + '</span>'
+                    stubs_demo_html += '</span></div>'
+                    stubs_demo_html += '<textarea class="form-control" aria-label="With textarea">' + JSON.stringify(value.request) + '</textarea>'
+                    stubs_demo_html += '</div></div></div></div>'
+                })
+                $(stubs_demo_html).appendTo("#accordion")
+                $('a.delete').on("click", function () {
+                    var itemValue = $(this).attr('id')
+                    $('div#stubs-demo' + itemValue).hide()
+                    $.ajax({
+                        url: 'http://127.0.0.1:3000/stubs/' + itemValue,
+                        type: 'DELETE',
+                        headers: {
+                            "access_token": $.cookie("access_token")
+                        }
+                    }).done(function (data) {
+                        console.log(data)
+                    })
+                })
+            })
         }
-      }).done(function (data) {
-        $('#accordionStubs').hide()
-        stubs_demo_html = ''
-        $.each(data, function (index, value) {
-          stubs_demo_html += '<div class="accordion stub' + value._id + '" id="accordionStubs' + index + '">'
-          stubs_demo_html += '<div class="card">'
-          stubs_demo_html += '<div class="card-header" id="heading' + index + '">'
-          stubs_demo_html += '<h2 class="mb-0">'
-          stubs_demo_html += '<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse' + index + '" aria-expanded="true" aria-controls="collapse' + index + '">'
-          stubs_demo_html += '<a href="#" class="badge badge-primary">' + value.method + '</a>'
-          stubs_demo_html += '<p class="d-inline h6"><em>/' + value.endpoint + '</em></p>'
-          stubs_demo_html += '</button>'
-          stubs_demo_html += '<a class="delete" href="#" id=' + value._id + '><i class="fa fa-trash float-right" aria-hidden="true"></i><a>'
-          stubs_demo_html += '</h2></div>'
-          stubs_demo_html += '<div id="collapse' + index + '" class="collapse show" aria-labelledby="heading' + index + '"data-parent="#accordionStubs' + index + '">'
-          stubs_demo_html += '<div class="card-body"><div class="input-group mb-3"><div class="input-group-prepend">'
-          stubs_demo_html += '<span class="input-group-text">Request</span>'
-          stubs_demo_html += '</div>'
-          stubs_demo_html += '<textarea class="form-control" aria-label="With textarea">' + JSON.stringify(value.request) + '</textarea>'
-          stubs_demo_html += '</div><div class="input-group mb-3"><div class="input-group-prepend">'
-          stubs_demo_html += '<span class="d-block input-group-text">Response'
-          stubs_demo_html += '<span class="d-block badge badge-primary">' + value.status + '</span>'
-          stubs_demo_html += '</span></div>'
-          stubs_demo_html += '<textarea class="form-control" aria-label="With textarea">' + JSON.stringify(value.request) + '</textarea>'
-          stubs_demo_html += '</div> </div></div></div></div>'
-        })
-        $(stubs_demo_html).appendTo(".stubs-demo")
-        $('a.delete').on("click", function () {
-          var itemValue = $(this).attr('id')
-          $('div.stub' + itemValue).hide()
-          $.ajax({
-            url: 'http://127.0.0.1:3000/stubs/' + itemValue,
-            type: 'DELETE',
-            headers: {
-              "access_token": $.cookie("access_token")
+        $(document).ready(function () {
+            if ($.cookie("access_token")) {
+                $('#prefix-url').attr('placeholder', 'your prefix to access your api is \"' + $.cookie("prefix") + "\"")
+                $("#basic-url").text('127.0.0.1/' + $.cookie("prefix") + '/')
+                getAllSubs()
+            } else {
+                window.location.href = '/'
             }
-          }).done(function (data) {
-            console.log(data)
-          })
         })
-      })
-    }
-    $(document).ready(function () {
-      if ($.cookie("access_token")) {
-        $('#prefix-url').attr('placeholder', 'your prefix to access your api is \"' + $.cookie("prefix") + "\"")
-        $("#basic-url").text('http://127.0.0.1/' + $.cookie("prefix") + '/')
-        getAllSubs()
-      } else {
-        window.location.href = '/'
-      }
-    })
-    $("#target").submit(function (event) {
-      event.preventDefault();
-      var endpoint = $("#endpoint").val();
-      var method = $("#method").val();
-      var request = $("#request").val();
-      var status = $("#status").val();
-      var response = $("#response").val();
-      try {
-        request = JSON.parse(request)
-        response = JSON.parse(response)
-      } catch (err) {
+        $("#target").submit(function (event) {
+            $(".alert").alert('close')
+            event.preventDefault();
+            var endpoint = $("#endpoint").val();
+            var method = $("#method").val();
+            var request = $("#request").val();
+            var status = $("#status").val();
+            var response = $("#response").val();
+            try {
+                request = JSON.parse(request)
+                response = JSON.parse(response)
+            } catch (err) {
 
-      }
-      $.ajax({
-        url: 'http://127.0.0.1:3000/stubs',
-        type: 'POST',
-        data: JSON.stringify({
-          "endpoint": endpoint,
-          "method": method,
-          "status": status,
-          "request": request,
-          "response": response
-        }),
-        dataType: "json",
-        contentType: "application/json",
-        headers: {
-          "access_token": $.cookie("access_token")
-        }
-      }).done(function (data) {
-        console.log(data)
-        $('#target').trigger("reset");
-      }).fail(function (data) {
-        console.log(data)
-        validataion_alaram_html = ''
-        $.each(data.responseJSON.errors, function (index, value) {
-          validataion_alaram_html += '<div class="alert alert-primary" role="alert">'
-          validataion_alaram_html += value
-          validataion_alaram_html += '</div>'
+            }
+            $.ajax({
+                url: 'http://127.0.0.1:3000/stubs',
+                type: 'POST',
+                data: JSON.stringify({
+                    "endpoint": endpoint,
+                    "method": method,
+                    "status": status,
+                    "request": request,
+                    "response": response
+                }),
+                dataType: "json",
+                contentType: "application/json",
+                headers: {
+                    "access_token": $.cookie("access_token")
+                }
+            }).done(function (data) {
+                $('#target').trigger("reset");
+                $('.alert-warning').alert('close')
+            }).fail(function (data) {
+                validataion_alaram_html = ''
+                $.each(data.responseJSON.errors, function (index, value) {
+                    validataion_alaram_html += '<div class="alert alert-warning alert-dismissible fade show" role="alert">'
+                    validataion_alaram_html += '<strong>Attention!</strong>'
+                    validataion_alaram_html += value
+                    validataion_alaram_html += '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'
+                    validataion_alaram_html += '<span aria-hidden="true">&times;</span>'
+                    validataion_alaram_html += '</button>'
+                    validataion_alaram_html += '</div>'
+                })
+                $(validataion_alaram_html).appendTo("#alert")
+            });
+
         })
-        $(validataion_alaram_html).appendTo("#alert")
-      });
-
-    })
-  </script>
+    </script>
 </body>
 
 </html>
