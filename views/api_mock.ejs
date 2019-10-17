@@ -10,39 +10,67 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Hello, world!</title>
+    <title>JAST - Mock Json Api</title>
 </head>
 
 <body>
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-                <a class="navbar-brand" href="#">Top navbar</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                  <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                      <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                  </ul>
-                  <form class="form-inline mt-2 mt-md-0" id="logout">
-                    <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
-                  </form>
-                </div>
-              </nav>
-
-
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <form class="form-inline mt-2 mt-md-0" id="logout">
+                <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
+            </form>
+        </div>
+    </nav>
     <div class="row col-12">
         <div class="col-6">
             <input class="d-block form-control" id="prefix-url" type="text" readonly>
             <div class="stubs-demo" id="accordion">
+                <div class="card" id="sample_stub">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                                aria-expanded="true" aria-controls="collapseOne">
+                                <a href="#" class="badge badge-primary">GET</a>
+                                <p class="d-inline h6"><em>/test</em></p>
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Request</span>
+                                </div>
+                                <textarea class="form-control" aria-label="With textarea"></textarea>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="d-block input-group-text">Response
+                                        <span class="d-block badge badge-primary">200</span>
+                                    </span></div>
+                                <textarea class="form-control"
+                                    aria-label="With textarea"> {"message" : "test is ok"} </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-6">
             <div id="alert">
             </div>
             <form id="target">
-                <label for="basic-url">Your vanity URL</label>
+                <label for="basic-url">Endpoint</label>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-url"></span>
@@ -62,15 +90,15 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="exampleFormControlTextarea1">Json Request</label>
+                    <label for="exampleFormControlTextarea1">Json Request (json format)</label>
                     <textarea class="form-control" id="request" rows="3"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="formGroupExampleInput">Status Code</label>
+                    <label for="formGroupExampleInput">Status Code (200 ~ 451)</label>
                     <input type="text" class="form-control" id="status" placeholder="Example input" required>
                 </div>
                 <div class="form-group">
-                    <label for="exampleFormControlTextarea1">Json Response</label>
+                    <label for="exampleFormControlTextarea1">Json Response (json format)</label>
                     <textarea class="form-control" id="response" rows="3" required></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -101,7 +129,7 @@
                     "access_token": $.cookie("access_token")
                 }
             }).done(function (data) {
-                $('#accordionStubs').hide()
+                if (data.length != 0) $('#sample_stub').hide()
                 stubs_demo_html = ''
                 $.each(data, function (index, value) {
                     stubs_demo_html += '<div class="card" id="stubs-demo' + value._id + '">'
@@ -129,7 +157,6 @@
                 $(stubs_demo_html).appendTo("#accordion")
                 $('a.delete').on("click", function () {
                     var itemValue = $(this).attr('id')
-                    $('div#stubs-demo' + itemValue).hide()
                     $.ajax({
                         url: 'http://127.0.0.1:3000/stubs/' + itemValue,
                         type: 'DELETE',
@@ -137,15 +164,15 @@
                             "access_token": $.cookie("access_token")
                         }
                     }).done(function (data) {
-                        console.log(data)
+                        $('div#stubs-demo' + itemValue).hide()
                     })
                 })
             })
         }
         $(document).ready(function () {
             if ($.cookie("access_token")) {
-                $('#prefix-url').attr('placeholder', 'your prefix to access your api is \"' + $.cookie("prefix") + "\"")
-                $("#basic-url").text('127.0.0.1/' + $.cookie("prefix") + '/')
+                $('#prefix-url').attr('placeholder', 'Your URL is \"127.0.0.1:3000/' + $.cookie("prefix") + "\"")
+                $("#basic-url").text('127.0.0.1:3000/' + $.cookie("prefix") + '/')
                 getAllSubs()
             } else {
                 window.location.href = '/'
@@ -183,7 +210,17 @@
                     "access_token": $.cookie("access_token")
                 }
             }).done(function (data) {
+                console.log(data)
+                success_alaram_html = ''
                 $('#target').trigger("reset");
+                success_alaram_html += '<div class="alert alert-success alert-dismissible fade show" role="alert">'
+                success_alaram_html += '<strong>Success!</strong>'
+                success_alaram_html += ` the endpoint '/${endpoint}' with ${method} has been created.`
+                success_alaram_html += '</div>'
+                $(success_alaram_html).appendTo("#alert")
+                $(".alert").fadeTo(2000, 500).slideUp(500, function () {
+                    $(".alert").slideUp(500)
+                });
             }).fail(function (data) {
                 validataion_alaram_html = ''
                 $.each(data.responseJSON.errors, function (index, value) {
@@ -196,8 +233,8 @@
                     validataion_alaram_html += '</div>'
                 })
                 $(validataion_alaram_html).appendTo("#alert")
-                $(".alert-warning").fadeTo(2000, 500).slideUp(500, function () {
-                    $(".alert-warning").slideUp(500)
+                $(".alert").fadeTo(2000, 500).slideUp(500, function () {
+                    $(".alert").slideUp(500)
                 });
             });
 
