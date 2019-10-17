@@ -88,16 +88,19 @@ router.get('/stubs', ensureAuthenticated, async function(req, res, next) {
 })
 
 router.all('/:prefix/*', async function(req, res, next) {
-  a = await Query.getAllStubs()
-  var user = await Query.findUserWithStubsWhere
-  (
-    { prefix: req.params.prefix }, 
-    {request : req.body, method: req.method, endpoint : req.params[0]}
-  )
-  if(user && user.stubs.length != 0){
-    res.status(user.stubs[0].status).send(user.stubs[0].response)  
+  if(req.params[0] == 'test' && req.method == 'GET'){
+    res.status(200).send({"message" : "test is ok"})  
   }else{
-      res.status(400).send('Not Found')    
+    var user = await Query.findUserWithStubsWhere
+    (
+      { prefix: req.params.prefix }, 
+      {request : req.body, method: req.method, endpoint : req.params[0]}
+    )
+    if(user && user.stubs.length != 0){
+      res.status(user.stubs[0].status).send(user.stubs[0].response)  
+    }else{
+        res.status(400).send('Not Found')    
+    }
   }
 })
 
