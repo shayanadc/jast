@@ -6,8 +6,6 @@ const passport = require('passport')
 const { check, validationResult } = require('express-validator');
 
 router.get('/',function(req, res) {res.render('index')})
-router.get('/all',function(req, res) {res.render('all')})
-router.get('/new',function(req, res) {res.render('new')})
 router.get('/api_mock',function(req, res) {res.render('api_mock')})
 
 
@@ -42,9 +40,7 @@ router.post('/stubs', [ ensureAuthenticated,
   check('response').not().isEmpty().withMessage('response field is required'),
   check('endpoint').not().isEmpty().withMessage('endpoint field is required'),
   check('method').not().isEmpty().withMessage('method field is required'),
-  check('method').isIn(['POST', 'GET', 'PUT', 'DELETE']).withMessage('method field should one of [POST, GET, PUT, DELETE]'),
-  // check('response').isJSON(),
-  // check('request').isJSON()
+  check('method').isIn(['POST', 'GET', 'PUT', 'DELETE']).withMessage('method field should one of [POST, GET, PUT, DELETE]')
 ], async function(req, res, next) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
