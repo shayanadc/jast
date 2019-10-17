@@ -3,6 +3,9 @@ mongoose.Promise = Promise;
 var { model, Schema } = mongoose
 
 var UserSchema = new Schema({
+  githubId : {
+    type: String
+  },
   prefix : {
     type: String,
     unique: true

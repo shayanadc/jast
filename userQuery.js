@@ -24,6 +24,7 @@ const deleteStub = (query) => {
 }
       })
   }
+  
   const saveUserStub = (user,stub) => {
   return new Promise(async (resolve, reject) => {
   try{
@@ -137,15 +138,15 @@ const deleteStub = (query) => {
     return new Promise(async (resolve, reject) => {
       let user;
       try{
-        user = await findUserWithStubs({prefix: query.prefix});
+        user = await findUserWithStubs({githubId: query.githubId});
         if(!user){
-          user = await saveUser({prefix : query.prefix});
+          user = await saveUser({githubId : query.githubId, prefix : Date.now()});
         }
-        var conditions = { prefix: user.prefix }
+        var conditions = { githubId: user.githubId }
         , update = { access_token: query.access_token }
         , options = { multi: false };
         await User.update(conditions, update, options);
-        user = await findUserWithStubs({prefix: query.prefix});
+        user = await findUserWithStubs({githubId: query.githubId});
         resolve(user)
       }catch(err){
         reject(err)

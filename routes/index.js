@@ -1,20 +1,20 @@
 var express = require('express');
 var router = express.Router();
-var _ = require('lodash');
 require('../db')
 const Query = require('../userQuery')
 const passport = require('passport')
 const { check, validationResult } = require('express-validator');
 
-router.get('/testi',function(req, res) {res.render('testi')})
 router.get('/',function(req, res) {res.render('index')})
 router.get('/all',function(req, res) {res.render('all')})
 router.get('/new',function(req, res) {res.render('new')})
+router.get('/api_mock',function(req, res) {res.render('api_mock')})
+
 
 async function ensureAuthenticated(req, res, next) {
  var Htoken = req.headers.access_token
  user  = await Query.findUserWithStubs({access_token: Htoken})
- if(!user) res.status(401).json({err: "Invalid Request"})
+ if(!user) res.status(401).json({err: "UnAuthorized"})
  if(user) {
    req.user = user
    next()
@@ -24,10 +24,9 @@ router.get('/auth/github', passport.authenticate('github'));
 
 router.get('/auth/github/callback', passport.authenticate('github', {session: false}), function(req, res) {
     data = { prefix : req.user.prefix, access_token : req.user.access_token }
-    
-    res.cookie('prefix', data.prefix, { expire : new Date(Date.now() + 7 * 24*60*60*1000), httpOnly: false });
-
-    res.cookie('access_token', data.access_token, { expire : new Date(Date.now() + 7 * 24*60*60*1000), httpOnly: false });
+    expiredTime = new Date(Date.now() + 7 * 24*60*60*1000)
+    res.cookie('prefix', data.prefix, { expire : expiredTime, httpOnly: false });
+    res.cookie('access_token', data.access_token, { expire : expiredTime, httpOnly: false });
     res.redirect('/')
   })
 
@@ -48,7 +47,6 @@ router.post('/stubs', [ ensureAuthenticated,
   // check('request').isJSON()
 ], async function(req, res, next) {
   const errors = validationResult(req);
-    console.log(req.body)
   if (!errors.isEmpty()) {
     let cs = errors.array().map(function(num) {
       return num.msg
@@ -67,7 +65,6 @@ router.post('/stubs', [ ensureAuthenticated,
     var myJSON = JSON.parse(JSON.stringify(user.stubs))
     res.send({message : 'new one saved!!', prefix : user.prefix, items : myJSON})
   } catch (err){
-    console.log(err)
     const keys = Object.entries(err.errors)
     err = []
     keys.forEach(element => {
@@ -91,16 +88,19 @@ router.get('/stubs', ensureAuthenticated, async function(req, res, next) {
 })
 
 router.all('/:prefix/*', async function(req, res, next) {
-  a = await Query.getAllStubs()
-  var user = await Query.findUserWithStubsWhere
-  (
-    { prefix: req.params.prefix}, 
-    {request : req.body, method: req.method, endpoint : req.params[0]}
-  )
-  if(user && user.stubs.length != 0){
-    res.status(user.stubs[0].status).send(user.stubs[0].response)  
+  if(req.params[0] == 'test' && req.method == 'GET'){
+    res.status(200).send({"message" : "test is ok"})  
   }else{
-      res.status(400).send('Not Found')    
+    var user = await Query.findUserWithStubsWhere
+    (
+      { prefix: req.params.prefix }, 
+      {request : req.body, method: req.method, endpoint : req.params[0]}
+    )
+    if(user && user.stubs.length != 0){
+      res.status(user.stubs[0].status).send(user.stubs[0].response)  
+    }else{
+        res.status(400).send('Not Found')    
+    }
   }
 })
 
