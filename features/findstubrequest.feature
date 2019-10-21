@@ -51,7 +51,7 @@ Feature: Find Request In DB
     @7
   Scenario: find and return test request
     Given I am a user with prefix "shayanadc" and access_token "8ba59cff42dea5d9b89fd85515ab0a11fbafc45l"
-    When open form "/shayanadc/test" 
+    When open form "/shayanadc/jast_mock_api" 
     And authenticate with "8ba59cff42dea5d9b89fd85515ab0a11fbafc45l" 
     And I submit with method "GET":
     """
