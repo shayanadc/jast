@@ -36,7 +36,6 @@ router.delete('/stubs/:id', ensureAuthenticated, async function(req, res, next) 
 router.post('/stubs', [ ensureAuthenticated,
   check('status').not().isEmpty().withMessage('status field is required'),
   check('status').isInt({ min: 200, max: 499 }).withMessage('method field is required'),
-  check('request').not().isEmpty().withMessage('request field is required'),
   check('response').not().isEmpty().withMessage('response field is required'),
   check('endpoint').not().isEmpty().withMessage('endpoint field is required'),
   check('method').not().isEmpty().withMessage('method field is required'),
@@ -84,7 +83,7 @@ router.get('/stubs', ensureAuthenticated, async function(req, res, next) {
 })
 
 router.all('/:prefix/*', async function(req, res, next) {
-  if(req.params[0] == 'test' && req.method == 'GET'){
+  if(req.params[0] == 'jast_mock_api' && req.method == 'GET'){
     res.status(200).send({"message" : "test is ok"})  
   }else{
     var user = await Query.findUserWithStubsWhere

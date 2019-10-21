@@ -40,7 +40,7 @@
                             <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
                                 aria-expanded="true" aria-controls="collapseOne">
                                 <a href="#" class="badge badge-primary">GET</a>
-                                <p class="d-inline h6"><em>/test</em></p>
+                                <p class="d-inline h6"><em>/jast_mock_api</em></p>
                             </button>
                         </h2>
                     </div>
@@ -51,7 +51,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Request</span>
                                 </div>
-                                <textarea class="form-control" aria-label="With textarea"></textarea>
+                                <textarea class="form-control" aria-label="With textarea" disabled></textarea>
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
@@ -59,7 +59,7 @@
                                         <span class="d-block badge badge-primary">200</span>
                                     </span></div>
                                 <textarea class="form-control"
-                                    aria-label="With textarea"> {"message" : "test is ok"} </textarea>
+                                    aria-label="With textarea" disabled> {"message" : "test is ok"} </textarea>
                             </div>
                         </div>
                     </div>
@@ -132,6 +132,11 @@
                 if (data.length != 0) $('#sample_stub').hide()
                 stubs_demo_html = ''
                 $.each(data, function (index, value) {
+                    if (value.request == ''){
+                        requestValue = ''
+                    }else{
+                        requestValue = JSON.stringify(value.request)
+                    }
                     stubs_demo_html += '<div class="card" id="stubs-demo' + value._id + '">'
                     stubs_demo_html += '<div class="card-header" id="heading' + index + '">'
                     stubs_demo_html += '<h4 class="mb-0">'
@@ -146,12 +151,12 @@
                     stubs_demo_html += '<div class="card-body"><div class="input-group mb-3"><div class="input-group-prepend">'
                     stubs_demo_html += '<span class="input-group-text">Request</span>'
                     stubs_demo_html += '</div>'
-                    stubs_demo_html += '<textarea class="form-control" aria-label="With textarea">' + JSON.stringify(value.request) + '</textarea>'
+                    stubs_demo_html += '<textarea class="form-control" aria-label="With textarea" disabled>' + requestValue + '</textarea>'
                     stubs_demo_html += '</div><div class="input-group mb-3"><div class="input-group-prepend">'
                     stubs_demo_html += '<span class="d-block input-group-text">Response'
                     stubs_demo_html += '<span class="d-block badge badge-primary">' + value.status + '</span>'
                     stubs_demo_html += '</span></div>'
-                    stubs_demo_html += '<textarea class="form-control" aria-label="With textarea">' + JSON.stringify(value.request) + '</textarea>'
+                    stubs_demo_html += '<textarea class="form-control" aria-label="With textarea" disabled>' + JSON.stringify(value.response) + '</textarea>'
                     stubs_demo_html += '</div></div></div></div>'
                 })
                 $(stubs_demo_html).appendTo("#accordion")
@@ -190,9 +195,13 @@
             var response = $("#response").val();
             try {
                 request = JSON.parse(request)
-                response = JSON.parse(response)
             } catch (err) {
 
+            }
+            try{
+                response = JSON.parse(response)
+            } catch (err) {
+                
             }
             $.ajax({
                 url: 'http://127.0.0.1:3000/stubs',
@@ -221,6 +230,7 @@
                 $(".alert").fadeTo(2000, 500).slideUp(500, function () {
                     $(".alert").slideUp(500)
                 });
+                window.location.href = '/api_mock'
             }).fail(function (data) {
                 validataion_alaram_html = ''
                 $.each(data.responseJSON.errors, function (index, value) {
