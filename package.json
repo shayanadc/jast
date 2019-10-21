@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node app.js",
     "cucumber": "node_modules/.bin/cucumber-js features -r steps --exit",
     "test": "npm run cucumber",
     "server": "nodemon app.js",
