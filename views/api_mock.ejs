@@ -58,8 +58,8 @@
                                     <span class="d-block input-group-text">Response
                                         <span class="d-block badge badge-primary">200</span>
                                     </span></div>
-                                <textarea class="form-control"
-                                    aria-label="With textarea" disabled> {"message" : "test is ok"} </textarea>
+                                <textarea class="form-control" aria-label="With textarea"
+                                    disabled> {"message" : "test is ok"} </textarea>
                             </div>
                         </div>
                     </div>
@@ -91,17 +91,20 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">Json Request (json format)</label>
-                    <textarea class="form-control" id="request" rows="3"></textarea>
+                    <textarea class="form-control" id="request" placeholder='{"key" : "value"}'
+                        onkeyup="jsonValidator(this)" rows="3"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="formGroupExampleInput">Status Code (200 ~ 451)</label>
-                    <input type="text" class="form-control" id="status" placeholder="Example input" required>
+                    <input type="text" class="form-control" id="status" placeholder="Http Methods Is Greater Than 200"
+                        required>
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">Json Response (json format)</label>
-                    <textarea class="form-control" id="response" rows="3" required></textarea>
+                    <textarea class="form-control" id="response" rows="3" placeholder='{"key" : "value"}' required
+                        onkeyup="jsonValidator(this)"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" id="stub-btn">Submit</button>
             </form>
         </div>
     </div>
@@ -121,6 +124,16 @@
     <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script>
+        function jsonValidator(t) {
+            element = t.id
+            inputTyping = $("#" + element).val()
+            try {
+                request = JSON.parse(inputTyping)
+                $("#" + element).css({ 'color': 'green' });
+            } catch (err) {
+                $("#" + element).css({ 'color': 'red' });
+            }
+        }
         function getAllSubs() {
             $.ajax({
                 url: 'http://127.0.0.1:3000/stubs',
@@ -132,9 +145,9 @@
                 if (data.length != 0) $('#sample_stub').hide()
                 stubs_demo_html = ''
                 $.each(data, function (index, value) {
-                    if (value.request == ''){
+                    if (value.request == '') {
                         requestValue = ''
-                    }else{
+                    } else {
                         requestValue = JSON.stringify(value.request)
                     }
                     stubs_demo_html += '<div class="card" id="stubs-demo' + value._id + '">'
@@ -198,10 +211,10 @@
             } catch (err) {
 
             }
-            try{
+            try {
                 response = JSON.parse(response)
             } catch (err) {
-                
+
             }
             $.ajax({
                 url: 'http://127.0.0.1:3000/stubs',
@@ -219,7 +232,6 @@
                     "access_token": $.cookie("access_token")
                 }
             }).done(function (data) {
-                console.log(data)
                 success_alaram_html = ''
                 $('#target').trigger("reset");
                 success_alaram_html += '<div class="alert alert-success alert-dismissible fade show" role="alert">'
