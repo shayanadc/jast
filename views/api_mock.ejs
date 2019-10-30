@@ -58,8 +58,8 @@
                                     <span class="d-block input-group-text">Response
                                         <span class="d-block badge badge-primary">200</span>
                                     </span></div>
-                                <textarea class="form-control"
-                                    aria-label="With textarea" disabled> {"message" : "test is ok"} </textarea>
+                                <textarea class="form-control" aria-label="With textarea"
+                                    disabled> {"message" : "test is ok"} </textarea>
                             </div>
                         </div>
                     </div>
@@ -91,17 +91,20 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">Json Request (json format)</label>
-                    <textarea class="form-control" id="request" rows="3"></textarea>
+                    <textarea class="form-control" id="request" placeholder='{"key" : "value"}'
+                        onkeyup="jsonValidator(this)" rows="3"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="formGroupExampleInput">Status Code (200 ~ 451)</label>
-                    <input type="text" class="form-control" id="status" placeholder="Example input" required>
+                    <input type="text" class="form-control" id="status" placeholder="Http Methods Is Greater Than 200"
+                        required>
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">Json Response (json format)</label>
-                    <textarea class="form-control" id="response" rows="3" required></textarea>
+                    <textarea class="form-control" id="response" rows="3" placeholder='{"key" : "value"}' required
+                        onkeyup="jsonValidator(this)"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" id="stub-btn">Submit</button>
             </form>
         </div>
     </div>
@@ -121,6 +124,16 @@
     <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script>
+        function jsonValidator(t) {
+            element = t.id
+            inputTyping = $("#" + element).val()
+            try {
+                request = JSON.parse(inputTyping)
+                $("#" + element).css({ 'color': 'green' });
+            } catch (err) {
+                $("#" + element).css({ 'color': 'red' });
+            }
+        }
         function getAllSubs() {
             $.ajax({
                 url: 'http://127.0.0.1:3000/stubs',
@@ -132,16 +145,32 @@
                 if (data.length != 0) $('#sample_stub').hide()
                 stubs_demo_html = ''
                 $.each(data, function (index, value) {
-                    if (value.request == ''){
+                    if (value.request == '') {
                         requestValue = ''
-                    }else{
+                    } else {
                         requestValue = JSON.stringify(value.request)
+                    }
+                    switch (value.method) {
+                        case "GET":
+                            badge = "badge-primary"
+                            break;
+                        case "POST":
+                            badge = "badge-success"
+                            break;
+                        case "DELETE":
+                            badge = "badge-danger"
+                            break;
+                        case "PUT":
+                            badge = "badge-warning"
+                            break;
+                        default:
+                            badge = "badge-dark"
                     }
                     stubs_demo_html += '<div class="card" id="stubs-demo' + value._id + '">'
                     stubs_demo_html += '<div class="card-header" id="heading' + index + '">'
                     stubs_demo_html += '<h4 class="mb-0">'
                     stubs_demo_html += '<button class="btn btn-link" data-toggle="collapse" data-target="#collapse' + index + '" aria-expanded="true" aria-controls="collapse' + index + '">'
-                    stubs_demo_html += '<a href="#" class="badge badge-primary">' + value.method + '</a>'
+                    stubs_demo_html += '<a href="#" class="badge ' + badge + '">' + value.method + '</a>'
                     stubs_demo_html += '<p class="d-inline h6"><em>/' + value.endpoint + '</em></p>'
                     stubs_demo_html += '</button>'
                     stubs_demo_html += '<a class="delete" href="#" id=' + value._id + '><i class="fa fa-trash float-right" aria-hidden="false"></i><a>'
@@ -198,10 +227,10 @@
             } catch (err) {
 
             }
-            try{
+            try {
                 response = JSON.parse(response)
             } catch (err) {
-                
+
             }
             $.ajax({
                 url: 'http://127.0.0.1:3000/stubs',
@@ -219,7 +248,6 @@
                     "access_token": $.cookie("access_token")
                 }
             }).done(function (data) {
-                console.log(data)
                 success_alaram_html = ''
                 $('#target').trigger("reset");
                 success_alaram_html += '<div class="alert alert-success alert-dismissible fade show" role="alert">'
@@ -230,7 +258,15 @@
                 $(".alert").fadeTo(2000, 500).slideUp(500, function () {
                     $(".alert").slideUp(500)
                 });
-                window.location.href = '/api_mock'
+                $('.card').remove()
+                loading_html = `<div class="text-center"> <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Loading...</span></div></div>`
+                $(loading_html).appendTo("#accordion")
+                setTimeout(function () {
+                    $(".spinner-grow").remove()
+                    getAllSubs()
+                }, 1500);
+                // window.location.href = '/api_mock'
             }).fail(function (data) {
                 validataion_alaram_html = ''
                 $.each(data.responseJSON.errors, function (index, value) {
