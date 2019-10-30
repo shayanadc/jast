@@ -150,11 +150,27 @@
                     } else {
                         requestValue = JSON.stringify(value.request)
                     }
+                    switch (value.method) {
+                        case "GET":
+                            badge = "badge-primary"
+                            break;
+                        case "POST":
+                            badge = "badge-success"
+                            break;
+                        case "DELETE":
+                            badge = "badge-danger"
+                            break;
+                        case "PUT":
+                            badge = "badge-warning"
+                            break;
+                        default:
+                            badge = "badge-dark"
+                    }
                     stubs_demo_html += '<div class="card" id="stubs-demo' + value._id + '">'
                     stubs_demo_html += '<div class="card-header" id="heading' + index + '">'
                     stubs_demo_html += '<h4 class="mb-0">'
                     stubs_demo_html += '<button class="btn btn-link" data-toggle="collapse" data-target="#collapse' + index + '" aria-expanded="true" aria-controls="collapse' + index + '">'
-                    stubs_demo_html += '<a href="#" class="badge badge-primary">' + value.method + '</a>'
+                    stubs_demo_html += '<a href="#" class="badge ' + badge + '">' + value.method + '</a>'
                     stubs_demo_html += '<p class="d-inline h6"><em>/' + value.endpoint + '</em></p>'
                     stubs_demo_html += '</button>'
                     stubs_demo_html += '<a class="delete" href="#" id=' + value._id + '><i class="fa fa-trash float-right" aria-hidden="false"></i><a>'
@@ -242,7 +258,15 @@
                 $(".alert").fadeTo(2000, 500).slideUp(500, function () {
                     $(".alert").slideUp(500)
                 });
-                window.location.href = '/api_mock'
+                $('.card').remove()
+                loading_html = `<div class="text-center"> <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="sr-only">Loading...</span></div></div>`
+                $(loading_html).appendTo("#accordion")
+                setTimeout(function () {
+                    $(".spinner-grow").remove()
+                    getAllSubs()
+                }, 1500);
+                // window.location.href = '/api_mock'
             }).fail(function (data) {
                 validataion_alaram_html = ''
                 $.each(data.responseJSON.errors, function (index, value) {
