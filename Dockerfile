@@ -8,7 +8,7 @@ ENV Mongo_HOST mongo
 ENV Mongo_PORT 27017
 ENV Github_Client_ID bf7641912a592abf5fd7
 ENV Github_Client_SECRET db0c54f52575634cb381a6e001af449a0b87d2f3
-ENV Github_CALLBACK http://127.0.0.1:3000/auth/github/callback
+ENV Github_CALLBACK http://localhost/auth/github/callback
 
 
 COPY package*.json ./
