@@ -136,7 +136,7 @@
         }
         function getAllSubs() {
             $.ajax({
-                url: 'http://127.0.0.1:3000/stubs',
+                url: '/stubs',
                 type: 'GET',
                 headers: {
                     "access_token": $.cookie("access_token")
@@ -192,7 +192,7 @@
                 $('a.delete').on("click", function () {
                     var itemValue = $(this).attr('id')
                     $.ajax({
-                        url: 'http://127.0.0.1:3000/stubs/' + itemValue,
+                        url: '/stubs/' + itemValue,
                         type: 'DELETE',
                         headers: {
                             "access_token": $.cookie("access_token")
@@ -205,8 +205,8 @@
         }
         $(document).ready(function () {
             if ($.cookie("access_token")) {
-                $('#prefix-url').attr('placeholder', 'Your URL is \"127.0.0.1:3000/' + $.cookie("prefix") + "\"")
-                $("#basic-url").text('127.0.0.1:3000/' + $.cookie("prefix") + '/')
+                $('#prefix-url').attr('placeholder', 'Your URL is \"jast.geexie.com/' + $.cookie("prefix") + "\"")
+                $("#basic-url").text('jast.geexie.com/' + $.cookie("prefix") + '/')
                 getAllSubs()
             } else {
                 window.location.href = '/'
@@ -233,7 +233,7 @@
 
             }
             $.ajax({
-                url: 'http://127.0.0.1:3000/stubs',
+                url: '/stubs',
                 type: 'POST',
                 data: JSON.stringify({
                     "endpoint": endpoint,

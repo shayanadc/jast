@@ -5,7 +5,7 @@ services:
     restart: always
     build: .
     ports:
-      - "3000:3000"
+      - "3000"
     volumes:
       - .:/app
     links:
@@ -14,4 +14,19 @@ services:
     container_name: mongo
     image: mongo
     ports:
-      - "27017:27017"
+      - "27017"
+
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    links:
+      - app
+    depends_on:
+      - app

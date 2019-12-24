@@ -13,8 +13,7 @@ passport.use(new GitHubStrategy({
     callbackURL: process.env.Github_CALLBACK,
   },
   async function(accessToken, refreshToken, profile, done) {
-    // user = await Q.findAndUpdateUser({ access_token: accessToken, prefix: sha1(profile.username) })
-      user = await Q.findAndUpdateUser({ access_token: accessToken, githubId: profile.id })
+    user = await Q.findAndUpdateUser({ access_token: accessToken, githubId: profile.id })
     return done(null, user);
   }
 ));
