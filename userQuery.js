@@ -12,7 +12,6 @@ const findStub = (query) => {
     }
         })
 }
-
 const deleteStub = (query) => {
   return new Promise(async (resolve, reject) => {
   try{

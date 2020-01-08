@@ -86,11 +86,19 @@ router.all('/:prefix/*', async function(req, res, next) {
   if(req.params[0] == 'jast_mock_api' && req.method == 'GET'){
     res.status(200).send({"message" : "test is ok"})  
   }else{
-    var user = await Query.findUserWithStubsWhere
+    if(req.method == 'GET'){
+      var user = await Query.findUserWithStubsWhere
     (
       { prefix: req.params.prefix }, 
-      {request : req.body, method: req.method, endpoint : req.params[0]}
+      {method: req.method, endpoint : req.params[0]}
     )
+    }else{
+      var user = await Query.findUserWithStubsWhere
+      (
+        { prefix: req.params.prefix }, 
+        {request : req.body, method: req.method, endpoint : req.params[0]}
+      )
+    }
     if(user && user.stubs.length != 0){
       res.status(user.stubs[0].status).send(user.stubs[0].response)  
     }else{

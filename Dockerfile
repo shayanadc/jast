@@ -8,7 +8,7 @@ ENV Mongo_HOST mongo
 ENV Mongo_PORT 27017
 ENV Github_Client_ID bf7641912a592abf5fd7
 ENV Github_Client_SECRET db0c54f52575634cb381a6e001af449a0b87d2f3
-ENV Github_CALLBACK http://localhost/auth/github/callback
+ENV Github_CALLBACK http://jast.geexie.com/auth/github/callback
 
 
 COPY package*.json ./
@@ -18,8 +18,5 @@ USER node
 RUN npm install
 # Tells our container who owns the copied content
 COPY --chown=node:node . .
-# Exposes the port "3000" from our container
-# This is also how we can connect to our container from our host machine (the one you're reading this from now)
-EXPOSE 80
 # An array of commands our container needs to run when we start it
 CMD ["npm", "run", "start"]
