@@ -54,6 +54,6 @@
     "cucumber": "^5.1.0",
     "express": "^4.17.1",
     "mongodb-memory-server": "^5.2.8",
-    "mongoose": "^5.7.4"
+    "mongoose": "^5.7.5"
   }
 }
