@@ -36,6 +36,7 @@ Given('I create stub:', async function (docString) {
   console.log(3)
   this.userAcc = JSON.parse(docString);
   this.userAcc._id = this.mockObjId
+
   this.stub = await Factory.create('Stub',this.userAcc)
   this.user.stubs.push(this.stub._id)
   this.user.save()

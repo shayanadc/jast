@@ -35,7 +35,6 @@ function nullOrJson(item) {
     return true;
   } else {
     item = typeof item !== "string" ? JSON.stringify(item) : item;
-    console.log(item);
     try {
       item = JSON.parse(item);
     } catch (e) {
